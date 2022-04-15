@@ -107,7 +107,7 @@ def threading(keywords):
             gc.collect()
 
 def do_task():
-    for i in range(15): #number of element-product
+    for i in range(21): #number of element-product
         splitted_char = list(split_char(i))
         pool(splitted_char)
         del splitted_char
