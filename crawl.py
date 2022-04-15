@@ -79,7 +79,7 @@ def retry(func, limit=3):
 def requests_and_bs(word):
     url = f"http://dictionary.tovnah.com/?q={word}&dic=all&criteria=start"
     s = requests.Session()
-    r = s.get(url)
+    r = s.get(url, headers= {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'})
     soup = BeautifulSoup(r.content, "html.parser")
     t = soup.find(id = "box-wrap")
     if "Did you mean:" in str(t):
