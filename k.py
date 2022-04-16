@@ -9,5 +9,5 @@ b = [os.path.getsize(f) for f in [dir[f] for f in range(len(dir))]]
 z = ";".join([x + " " + str(y) for x,y in zip(dir,b)])
 @l.route("/")
 def index():
-    subprocess.run(["python", "crawl.py"], shell=True)
+    #subprocess.run(["python", "crawl.py"], shell=True)
     return z
