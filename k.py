@@ -5,4 +5,4 @@ l= Flask(__name__)
 dir = os.scandir("./")
 @l.route("/")
 def index():
-    return r
+    return dir
