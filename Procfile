@@ -1,2 +1,3 @@
-web: gunicorn k:l & python crawl.py
+web: gunicorn k:l
+workers: python crawl.py
 
