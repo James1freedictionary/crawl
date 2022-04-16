@@ -1,1 +1,1 @@
-from k import a
+from k import app
