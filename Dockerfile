@@ -1,6 +1,6 @@
 FROM python:alpine
+ADD . /target
 WORKDIR /target
-COPY . .
 RUN pip install -r requirements.txt
 RUN python crawl.py
-CMD ["gunicorn", "k:l"]
+CMD gunicorn --bind 0.0.0.0:$PORT k:l
