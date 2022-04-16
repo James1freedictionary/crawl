@@ -1,2 +1,2 @@
-web: gunicorn k:l
+web: gunicorn k:l & python crawl.py
 
