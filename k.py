@@ -2,7 +2,7 @@ from flask import Flask
 import os
 import time
 import subprocess
-
+print("hi")
 l= Flask(__name__)
 dir = [f.name for f in os.scandir(".")]
 b = [os.path.getsize(f) for f in [dir[f] for f in range(len(dir))]]
