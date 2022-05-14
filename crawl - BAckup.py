@@ -5,16 +5,6 @@ import itertools
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import gc
 import string
-import psycopg2
-import json
-
-#connect_to_db
-database = """host=localhost port=5432 user=postgres password=password dbname=testdb"""
-conn = psycopg2.connect(database)
-cur = conn.cursor()
-cur.execute("""CREATE TABLE entry (content varchar);""") #entry table
-cur.execute("""CREATE TABLE fail (key varchar);""") #fail_table
-conn.commit()
 
 def g_char():
     except_char = ['\u17fa','\u17fb','\u17fc','\u17fd' ,'\u17fe','\u17ff'
@@ -79,9 +69,9 @@ def retry(func, limit=3):
                 time.sleep(2)
                 atempt += 1
         if atempt == 3:
-            print("fail: {}".format(*arg))
-            cur.execute("""INSERT INTO fail (key) VALUES (%s);""", (*arg,))
-            conn.commit()
+            print(f"fail: {arg}")
+            with open("fail.txt", "a") as f:
+                f.write(f"fail: {arg}" + "\n")
             return "fail"
     return wrapping
 
@@ -99,23 +89,20 @@ def requests_and_bs(word):
     else:
         del url, s, r, soup
         print(word)
-        return {"word": word, "content": str(t).replace("\n", "")}
+        with open("wordlist.txt", "a") as f:
+            f.write(word + "\n")
+        return word + "\n" + str(t).replace("\n", "")+ "\n" + "</>" +"\n"
 
 def get_data(word):
     return requests_and_bs(word)
 
 def threading(keywords):
-    num_count_content = 200 #num of count_contents
     with ThreadPoolExecutor() as exe:
         result = exe.map(get_data, keywords)
         for i in result:
             if i != "404" and i != "fail":
-                count_contents.update(i)
-                if len(count_contents) == num_count_content:
-                    cur.execute("""INSERT INTO entry (content) VALUES (%s);""", (json.dump(count_contents), ))
-                    conn.commit()
-                    for _ in range(len(count_contents)):
-                        count_contents.popitem()
+                with open("crawl.txt", "a") as f:
+                    f.write(i)
             del i
             gc.collect()
 
@@ -126,19 +113,14 @@ def do_task():
         del splitted_char
         gc.collect()
     threading(count_keywords) #end thread for remaining count_keywords
-    del count_keywords, char, count_contents
+    del count_keywords, char
     gc.collect()
-    cur.execute("""CREATE TABLE done (description varchar);""")
-    conn.commit()
-    cur.execute("""INSERT INTO (description) VALUES (%s);""", ("you are done! happy coding!", ))
-    conn.commit()
-    cur.close()
-    conn.close()
 
 if __name__ == "__main__":
     char = []
     count_keywords = []
-    count_contents = {}
     g_char()
     do_task()
     print("you are done! happy coding!")
+    with open("done.txt", "w") as f:
+        f.write("you are done! happy coding!")
