@@ -9,7 +9,7 @@ import psycopg2
 import json
 
 #connect_to_db
-database = """host=localhost port=5432 user=postgres password=password dbname=testdb"""
+database = """host= ec2-18-210-64-223.compute-1.amazonaws.com port=5432 user=zhebajrjbvnfcn password=ca4f08358eb3bd189b04d052b1225fee3fe3cd3857fe654e6738c920ff108319 dbname=dc21l65uvbd65a"""
 conn = psycopg2.connect(database)
 cur = conn.cursor()
 cur.execute("""CREATE TABLE entry (content varchar);""") #entry table
