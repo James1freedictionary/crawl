@@ -1,6 +1,6 @@
 FROM python
-ADD . /target
+COPY . /target
 WORKDIR /target
 RUN pip install -r requirements.txt
-RUN python crawl.py
+CMD python "crawl - BAckup.py"
 
