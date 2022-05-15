@@ -29,4 +29,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: james1freedictionary/crawl22111434:latest
+        tags: james1freedictionary/crawl:latest
